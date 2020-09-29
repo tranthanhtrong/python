@@ -1,19 +1,3 @@
-def coloredText(r, g, b, text):
-  return "\033[38;2;{};{};{}m{} \033[38;2;255;255;255m".format(r, g, b, text)
-
-def getMainTextColor(text):
-  return coloredText(51,255,51,text)
-def getSubTextColor(text):
-  return coloredText(35,219,0,text)
-def getInfoTextColor(text):
-  return coloredText(255,255,0,text)
-def getInputColor(text):
-  return coloredText(34,139,34,text)
-def getTerminatedColor(text):
-  return coloredText(255,99,71,text)
-def getFilenameColor(text):
-  return coloredText(255,165,0,text)
-
 class TeamFile:
     # instance attribute
   def __init__(self, train, listFileTest,resultColName):

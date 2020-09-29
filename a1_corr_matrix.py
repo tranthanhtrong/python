@@ -10,7 +10,7 @@ from a_utils import *
 
 #Train on one dataset, then test of another dataset
 def correction_matrix(filenameTrain,resultColName,fileListTest,nTimes,percentTest,coef_percent):
-  print(getInfoTextColor("Train by ") + str(getFilenameColor(filenameTrain)) +getInfoTextColor(", run test " + str(nTimes) + " times, use " + str(percentTest) +" percent from train to get coef and coef > " + str(coef_percent)))
+  print("Train by " + str(filenameTrain) +", run test " + str(nTimes) + " times, use " + str(percentTest) +" percent from train to get coef and coef > " + str(coef_percent))
 
   data = pd.read_csv(filenameTrain)
   colName = data.columns;
@@ -23,15 +23,15 @@ def correction_matrix(filenameTrain,resultColName,fileListTest,nTimes,percentTes
     X_train_new = X_train
   else :
     X_train_new = X
-  print(getInfoTextColor ("Get " + str(len(X_train_new)) + " columns from " + str(len(X)) + " elements for get Coefficient."))
+  print("Get " + str(len(X_train_new)) + " columns from " + str(len(X)) + " elements for get Coefficient.")
   cor = X_train_new.corr()
   cor_target = abs(cor[resultColName])
   relevant_features = cor_target[cor_target > float(coef_percent)]
   if len(relevant_features.index) <= 1:
-    print(getTerminatedColor("More than one importance feature is required"))
+    print("More than one importance feature is required")
     quit()
   else :
-    print(getInfoTextColor("Found " + str(len(relevant_features.index)) + " important features"))
+    print("Found " + str(len(relevant_features.index)) + " important features")
   importanceFeature =  relevant_features.index;
   rng = default_rng()
   #In colName has n columns, position of RS is n - 1. Because of a noname rows of V1,V2,V3,...
@@ -48,11 +48,11 @@ def correction_matrix(filenameTrain,resultColName,fileListTest,nTimes,percentTes
   mcc_if =0.0
   auc_if =0.0
   for x in range(len(fileListTest)):
-    print(getSubTextColor("Test on ") + getFilenameColor(fileListTest[x] ))
+    print("Test on " + fileListTest[x] )
     for n in range(nTimes):
         if nTimes ==0:
           break
-        print(getSubTextColor("Time run number ") + str(n+1))
+        print("Time run number " + str(n+1))
         data_yu = pd.read_csv(fileListTest[x])
         df_IF = pd.DataFrame(data_yu, columns = importanceFeature).fillna(0)
         X_Test_IF=df_IF[importanceFeature].drop(resultColName,1)
@@ -79,7 +79,7 @@ def correction_matrix(filenameTrain,resultColName,fileListTest,nTimes,percentTes
         acc_if+=metrics.accuracy_score(y_Test_IF, y_Predict_IF.round())
         mcc_if+=metrics.matthews_corrcoef(y_Test_IF, y_Predict_IF.round())
         auc_if+=metrics.roc_auc_score(y_Test_IF, y_Predict_IF.round())
-    print(getSubTextColor("Result "))
+    print("Result ")
     if nTimes ==0:
       break
     print("Random run " + str(nTimes) + " times =====")
