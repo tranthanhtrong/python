@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from numpy.random import default_rng
 from a_utils import *
 
-
+#Revise is needed
 # Train on one dataset, then test of another dataset
 def correction_matrix_selftest(filenameTrain, resultColName, nTimes, percentTest, coef_percent):
     print("Train by " + str(filenameTrain) + ", run seft - test " + str(nTimes) + " times, use " + str(
