@@ -1,12 +1,9 @@
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
-import numpy as np
+from numpy.random import default_rng
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from numpy.random import default_rng
-from a_utils import *
+
 
 #Revise is needed
 # Train on one dataset, then test of another dataset
