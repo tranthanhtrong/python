@@ -24,27 +24,14 @@ def getNewDataset():
     fileListTest.append('ibdfullHS_UCf_x.csv')
     return TeamFile(train, fileListTest, "RS")
 
-
-import os, sys
-
-
-def has_colors():
-    if ((os.getenv("CLICOLOR", "1") != "0" and sys.stdout.isatty()) or
-            os.getenv("CLICOLOR_FORCE", "0") != "0"):
-        return True
-    else:
-        return False
-
-
-def textcolor_display(text, type_mes='er'):
-    if has_colors():
-        end = '\x1b[0m'
-        if type_mes in ['er', 'error']:
-            begin = '\x1b[1;33;41m'
-            return begin + text + end
-
-        if type_mes in ['inf', 'information']:
-            begin = '\x1b[0;36;44m'
-            return begin + text + end
-    else:
-        return text
+class color:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+def textcolor_display(text,values):
+   return  f"{values}"+text+f"{color.ENDC}"
