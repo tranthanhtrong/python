@@ -24,9 +24,12 @@ def correction_matrix(filenameTrain,resultColName,fileListTest,nTimes,percentTes
   else :
     X_train_new = X
   print("Get " + str(len(X_train_new)) + " columns from " + str(len(X)) + " elements for get Coefficient.")
-  cor = X_train_new.corr()
-  cor_target = abs(cor[resultColName])
-  relevant_features = cor_target[cor_target > float(coef_percent)]
+  if float(coef_percent)!=0.0:
+    cor = X_train_new.corr()
+    cor_target = abs(cor[resultColName])
+    relevant_features = cor_target[cor_target > float(coef_percent)]
+  else:
+    relevant_features = X_train_new
   if len(relevant_features.index) <= 1:
     print("More than one importance feature is required")
     quit()
