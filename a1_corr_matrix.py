@@ -10,8 +10,7 @@ from a_utils import *
 
 #Train on one dataset, then test of another dataset
 def correction_matrix(filenameTrain,resultColName,fileListTest,nTimes,percentTest,coef_percent):
-  print("Train by " + str(filenameTrain) +", run test " + str(nTimes) + " times, use " + str(percentTest) +" percent from train to get coef and coef > " + str(coef_percent))
-
+  print(textcolor_display(str("Train by " + str(filenameTrain) +", run test " + str(nTimes) + " times, use " + str(percentTest) +" percent from train to get coef and coef > " + str(coef_percent))))
   data = pd.read_csv(filenameTrain)
   colName = data.columns;
   df = pd.DataFrame(data, columns = colName)
