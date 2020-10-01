@@ -44,12 +44,12 @@ def kfold_svm(filenameTrain,resultColName,fileListTest,nTimes,percentTest,coef_p
   y_Train_Random = df[resultColName]  
   X_Train_ImportFeature=df[importanceFeature].drop(resultColName,1)
   y_Train_ImportFeature=df[resultColName]
-  acc_random =0.0
-  mcc_random =0.0
-  auc_random =0.0
-  acc_if =0.0
-  mcc_if =0.0
-  auc_if =0.0
+  acc_random = 0.0
+  mcc_random = 0.0
+  auc_random = 0.0
+  acc_if = 0.0
+  mcc_if = 0.0
+  auc_if = 0.0
   for x in range(len(fileListTest)):
     print("Test on " + fileListTest[x])
     for n in range(nTimes):
@@ -73,29 +73,60 @@ def kfold_svm(filenameTrain,resultColName,fileListTest,nTimes,percentTest,coef_p
         pipeline = Pipeline([('select', select), ('scale', scl), ('svm', svm)])
 
         kf = KFold(n_splits= int(numK))
-        output = cross_validate(pipeline, X_Train_ImportFeature, y_Train_ImportFeature, cv=kf, scoring = ('accuracy', 'f1', 'roc_auc'), return_estimator = True, return_train_score= True)
-        fitted_svc = output['estimator'][0].named_steps['svm']
-        print(fitted_svc.coef_)
-        # acc_random+=metrics.accuracy_score(y_Test_Random, y_Pred_Random.round())
-        # mcc_random+=metrics.matthews_corrcoef(y_Test_Random, y_Pred_Random.round())
-        # auc_random+=metrics.roc_auc_score(y_Test_Random, y_Pred_Random.round())
-        # acc_if+=metrics.accuracy_score(y_Test_IF, y_Predict_IF.round())
-        # mcc_if+=metrics.matthews_corrcoef(y_Test_IF, y_Predict_IF.round())
-        # auc_if+=metrics.roc_auc_score(y_Test_IF, y_Predict_IF.round())
+        X_new_kfold = X_Train_ImportFeature
+        y_new_kfold = y_Train_ImportFeature
+        accuracy_model_acc = []
+        accuracy_model_mcc = []
+        accuracy_model_auc = []
+        for train, test in kf.split(X_new_kfold):
+            X_train_kfold_loops, X_test_kfold_loops = X_new_kfold.iloc[train], X_new_kfold.iloc[test]
+            y_train_kfold_loops, y_test_kfold_loops = y_new_kfold[train], y_new_kfold[test]
+
+            # Train the model
+            model = pipeline.fit(X_train_kfold_loops, y_train_kfold_loops)
+            accuracy_model_acc.append(metrics.accuracy_score(y_Test_IF, model.predict(X_Test_IF).round()))
+            accuracy_model_mcc.append(
+                metrics.matthews_corrcoef(y_Test_IF, model.predict(X_Test_IF).round()))
+            accuracy_model_auc.append(metrics.roc_auc_score(y_Test_IF, model.predict(X_Test_IF).round()))
+        # evaluate the model
+        clfRandom = RandomForestClassifier(n_estimators=1000, max_features='auto')
+        clfRandom.fit(X_Train_Random, y_Train_Random)
+        y_Pred_Random = clfRandom.predict(X_Test_Random)
+        accuracy_model_acc_random = []
+        accuracy_model_mcc_random = []
+        accuracy_model_auc_random = []
+        for train, test in kf.split(X_new_kfold):
+            X_train_kfold_loops, X_test_kfold_loops = X_new_kfold.iloc[train], X_new_kfold.iloc[test]
+            y_train_kfold_loops, y_test_kfold_loops = y_new_kfold[train], y_new_kfold[test]
+
+            # Train the model
+            model = pipeline.fit(X_train_kfold_loops, y_train_kfold_loops)
+            accuracy_model_acc_random.append(
+                metrics.accuracy_score(y_Test_Random, model.predict(X_Test_Random).round()))
+            accuracy_model_mcc_random.append(
+                metrics.matthews_corrcoef(y_Test_Random, model.predict(X_Test_Random).round()))
+            accuracy_model_auc_random.append(
+                metrics.roc_auc_score(y_Test_Random, model.predict(X_Test_Random).round()))
+        acc_if += float(sum(map(float, accuracy_model_acc)) / len(accuracy_model_acc))
+        mcc_if += float(sum(map(float, accuracy_model_mcc)) / len(accuracy_model_mcc))
+        auc_if += float(sum(map(float, accuracy_model_auc)) / len(accuracy_model_auc))
+        acc_random += float(sum(map(float, accuracy_model_acc_random)) / len(accuracy_model_acc_random))
+        mcc_random += float(sum(map(float, accuracy_model_mcc_random)) / len(accuracy_model_mcc_random))
+        auc_random += float(sum(map(float, accuracy_model_auc_random)) / len(accuracy_model_auc_random))
     print("Result ")
     if nTimes ==0:
       break
-    # print("Random run " + str(nTimes) + " times =====")
-    # print("Average ACC = "  + str(acc_random/nTimes))
-    # print("Average MCC = "  + str(mcc_random/nTimes))
-    # print("Average MCC = "  + str(auc_random/nTimes))
-    # print("Importance Feature run " + str(nTimes) + " times =====")
-    # print("Average ACC = "  + str(acc_if/nTimes))
-    # print("Average MCC = "  + str(mcc_if/nTimes))
-    # print("Average MCC = "  + str(auc_if/nTimes))
-    acc_if =0.0
-    mcc_if =0.0
-    auc_if =0.0
-    acc_random =0.0
-    mcc_random =0.0
-    auc_random =0.0
+    print("Random run " + str(nTimes) + " times =====")
+    print("Average ACC = " + str(acc_random / nTimes))
+    print("Average MCC = " + str(mcc_random / nTimes))
+    print("Average MCC = " + str(auc_random / nTimes))
+    print("Importance Feature run " + str(nTimes) + " times =====")
+    print("Average ACC = " + str(acc_if / nTimes))
+    print("Average MCC = " + str(mcc_if / nTimes))
+    print("Average MCC = " + str(auc_if / nTimes))
+    acc_if = 0.0
+    mcc_if = 0.0
+    auc_if = 0.0
+    acc_random = 0.0
+    mcc_random = 0.0
+    auc_random = 0.0
