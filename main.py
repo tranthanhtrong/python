@@ -46,6 +46,13 @@ while True:
         numK = int(input("Number K-Fold (5 or 10): "))
         correction_kfold(team_file.train, team_file.resultColName,
                          team_file.listFileTest, nTimes, percentTest, coef, numK)
+    if algo_choice == 4:
+        nTimes = int(input("Time Run (1-100): "))
+        percentTest = float(input("Percent Test(0-0.9): "))
+        coef = float(input("Coef(0-0.9): "))
+        numK = int(input("Number K-Fold (5 or 10): "))
+        correction_kfold_selftest(team_file.train, team_file.resultColName,
+                                  nTimes, percentTest, coef, numK)
     if algo_choice == 5:
         nTimes = int(input("Time Run (1-100): "))
         percentTest = float(input("Percent Test(0-0.9): "))
