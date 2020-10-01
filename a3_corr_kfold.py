@@ -70,9 +70,9 @@ def correction_kfold(filenameTrain, resultColName, fileListTest, nTimes, percent
             X_Test_Random = df_Test[randomeFeatureSameSize].drop(resultColName, 1)
             y_Test_Random = df_Test[resultColName]  # Labels
 
-            clf = RandomForestClassifier()
-            kf = KFold(n_splits=int(5))
-            # enumerate splits
+            # Train with method 1: random forest and kFold
+            clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
+            kf = KFold(n_splits=int(numK))
             X_new_kfold = X_Train_ImportFeature
             y_new_kfold = y_Train_ImportFeature
             accuracy_model_acc = []
@@ -108,11 +108,6 @@ def correction_kfold(filenameTrain, resultColName, fileListTest, nTimes, percent
                     metrics.matthews_corrcoef(y_Test_Random, model.predict(X_Test_Random).round()))
                 accuracy_model_auc_random.append(
                     metrics.roc_auc_score(y_Test_Random, model.predict(X_Test_Random).round()))
-
-            # Train with method 1: random forest and kFold
-            clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
-            kf = KFold(n_splits=int(numK))
-            # enumerate splits
 
             acc_if += float(sum(map(float, accuracy_model_acc)) / len(accuracy_model_acc))
             mcc_if += float(sum(map(float, accuracy_model_mcc)) / len(accuracy_model_mcc))
