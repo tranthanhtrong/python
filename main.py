@@ -1,5 +1,6 @@
 from a1_corr_matrix import correction_matrix
 from a5_kfold_svm import kfold_svm
+from a3_corr_kfold import correction_kfold
 from a2_corr_selftest import correction_matrix_selftest
 from a_utils import *
 while True:
