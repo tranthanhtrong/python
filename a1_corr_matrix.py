@@ -1,17 +1,15 @@
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
-import numpy as np
+from numpy.random import default_rng
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from numpy.random import default_rng
+
 from a_utils import *
+
 
 #Train on one dataset, then test of another dataset
 def correction_matrix(filenameTrain,resultColName,fileListTest,nTimes,percentTest,coef_percent):
-  print("Train by " + str(filenameTrain) +", run test " + str(nTimes) + " times, use " + str(percentTest) +" percent from train to get coef and coef > " + str(coef_percent))
-
+  print(textcolor_display(str("Train by " + str(filenameTrain) +", run test " + str(nTimes) + " times, use " + str(percentTest) +" percent from train to get coef and coef > " + str(coef_percent)),color.HEADER))
   data = pd.read_csv(filenameTrain)
   colName = data.columns;
   df = pd.DataFrame(data, columns = colName)
