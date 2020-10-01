@@ -1,6 +1,7 @@
 from a1_corr_matrix import correction_matrix
 from a7_corr_svm import correction_svm
 from a5_kfold_svm import kfold_svm
+from a6_kfold_svm_selftest import kfold_svm_sefltest
 from a3_corr_kfold import correction_kfold
 from a2_corr_selftest import correction_matrix_selftest
 from a_utils import *
@@ -22,6 +23,7 @@ while True:
     print("2. Correclation Matrix - Self Test")
     print("3. Correclation Matrix - K-fold")
     print("5. KFold SVM")
+    print("6. KFold SVM - Self Test")
     print("7. Correclation SVM")
     print("8. Correclation SVM - Self Test")
     algo_choice = int(input("Input : "))
@@ -50,6 +52,13 @@ while True:
         coef = float(input("Coef(0-0.9): "))
         numK = int(input("Number K-Fold (5 or 10): "))
         kfold_svm(team_file.train, team_file.resultColName,
+                  team_file.listFileTest, nTimes, percentTest, coef, numK)
+    if algo_choice == 6:
+        nTimes = int(input("Time Run (1-100): "))
+        percentTest = float(input("Percent Test(0-0.9): "))
+        coef = float(input("Coef(0-0.9): "))
+        numK = int(input("Number K-Fold (5 or 10): "))
+        kfold_svm_sefltest(team_file.train, team_file.resultColName,
                   team_file.listFileTest, nTimes, percentTest, coef, numK)
     if algo_choice == 7:
         print(textcolor_display("7. Correclation SVM", color.OKBLUE))
