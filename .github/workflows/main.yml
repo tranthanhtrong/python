@@ -34,3 +34,8 @@ jobs:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: POST
           payload: '{"content": "${{ steps.step1.outputs.changelog }}"}'
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "${{ steps.step1.outputs.changelog }}"}'
