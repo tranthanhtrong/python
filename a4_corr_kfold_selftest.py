@@ -67,9 +67,6 @@ def correction_kfold_selftest(filenameTrain, resultColName, nTimes, percentTest,
         clfRandom = RandomForestClassifier(n_estimators=1000, max_features='auto')
         clfRandom.fit(X_Train_Random, y_Train_Random)
         y_Pred_Random = clfRandom.predict(X_Test_Random)
-        acc_random += metrics.accuracy_score(y_Test_Random, y_Pred_Random.round())
-        mcc_random += metrics.matthews_corrcoef(y_Test_Random, y_Pred_Random.round())
-        auc_random += metrics.roc_auc_score(y_Test_Random, y_Pred_Random.round())
 
         # Train with method 1: random forest and kFold
         clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
@@ -93,11 +90,6 @@ def correction_kfold_selftest(filenameTrain, resultColName, nTimes, percentTest,
         clf.fit(X_Train_ImportFeature,
                 y_Train_ImportFeature)  # Build a forest of trees from the training set (X, y).
         y_Predict_IF = clf.predict(X_test_kfold_loops)
-
-        acc_if += metrics.accuracy_score(y_test_kfold_loops, y_Predict_IF)
-        mcc_if += metrics.matthews_corrcoef(y_test_kfold_loops, y_Predict_IF)
-        auc_if += metrics.roc_auc_score(y_test_kfold_loops, y_Predict_IF)
-
         # Train with method 2: Random
         clfRandom = RandomForestClassifier(n_estimators=1000, max_features='auto')
         clfRandom.fit(X_Train_Random, y_Train_Random)

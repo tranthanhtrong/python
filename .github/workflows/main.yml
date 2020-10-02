@@ -32,6 +32,11 @@ jobs:
           pip install numpy
           pip install matplotlib
           pip install seaborn
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "Ready to get the result! Please wait for the end! :yum: "}'
       - run: |
           output=$(python auto_report_a1.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -42,7 +47,7 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A1_${{ steps.step1.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A1 Correclation Matrix :point_left: \n ${{ steps.step1.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a2.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -53,7 +58,7 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A2_${{ steps.step2.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A2 Correclation Matrix - Self Test :point_left: \n  ${{ steps.step2.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a3.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -64,7 +69,7 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A3_${{ steps.step3.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A3 Correclation Matrix Kfold :point_left: \n ${{ steps.step3.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a4.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -75,7 +80,7 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A4_${{ steps.step4.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A4 Correclation Matrix Kfold - Self Test\n ${{ steps.step4.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a5.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -86,7 +91,7 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A5_${{ steps.step5.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A5 KFold SVM :point_left: \n ${{ steps.step5.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a6.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -97,7 +102,7 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A6_${{ steps.step6.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A6 KFold SVM - Self Test :point_left: \n ${{ steps.step6.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a7.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -108,7 +113,7 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A7_${{ steps.step7.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A7 Correclation SVM :point_left: \n ${{ steps.step7.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a8.py v2.21)
           output="${output//$'\n'/\\n}"
@@ -119,4 +124,9 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "A8_${{ steps.step8.outputs.changelog }}"}'
+          data: '{"content": ":point_right: A8 Correclation SVM - Self Test :point_left: \n ${{ steps.step8.outputs.changelog }}"}'
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": ":dart: That is all! Please analysis your results!"}'
