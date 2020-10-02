@@ -31,7 +31,7 @@ jobs:
           pip install sklearn
           pip install numpy
           pip install matplotlib
-          
+          pip install seaborn
       - run: |
           output=$(python auto_report.py v2.21)
           output="${output//$'\n'/\\n}"
