@@ -34,4 +34,4 @@ jobs:
           MY_STEP_VAR: '${{ steps.step1.outputs.changelog }}'
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "${{ MY_STEP_VAR }}"}'
+          data: '{"content": "$MY_STEP_VAR"}'
