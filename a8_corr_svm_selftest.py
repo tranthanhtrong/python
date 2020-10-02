@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 
 #Revise is needed
 # Train on one dataset, then test of another dataset
-def correction_matrix_selftest(filenameTrain, resultColName, nTimes, percentTest, coef_percent):
+def correction_svm_selftest(filenameTrain, resultColName, nTimes, percentTest, coef_percent):
     print("Train by " + str(filenameTrain) + ", run seft - test " + str(nTimes) + " times, use " + str(
         percentTest) + " percent from train to get coef and coef > " + str(coef_percent))
 
