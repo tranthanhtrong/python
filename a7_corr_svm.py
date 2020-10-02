@@ -69,14 +69,14 @@ def correction_svm(filenameTrain, resultColName, fileListTest, nTimes, percentTe
             y_Test_Random = df_Test[resultColName]  # Labels
 
             # Train with method 2
-            clfRandom = make_pipeline(StandardScaler(), SVC(gamma='auto'))
+            clfRandom = SVC()
             clfRandom.fit(X_Train_Random, y_Train_Random)
             y_Pred_Random = clfRandom.predict(X_Test_Random)
             acc_random += metrics.accuracy_score(y_Test_Random, y_Pred_Random.round())
             mcc_random += metrics.matthews_corrcoef(y_Test_Random, y_Pred_Random.round())
             auc_random += metrics.roc_auc_score(y_Test_Random, y_Pred_Random.round())
 
-            clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
+            clf = SVC()
             clf.fit(X_Train_ImportFeature, y_Train_ImportFeature)
 
             # Train with method 1
