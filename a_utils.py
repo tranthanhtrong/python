@@ -34,4 +34,4 @@ class color:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 def textcolor_display(text,values):
-   return  f"{values}"+text+f"{color.ENDC}"
+   return  text
