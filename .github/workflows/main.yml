@@ -25,12 +25,14 @@ jobs:
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}" 
-          echo "::set-output name=changelog::output::$(ls -l)"
+          echo "::set-output name=changelog::$output"
         id: step1
       - name: Print changelog
+        env:
+          MY_STEP_VAR: '${{ steps.step1.outputs.changelog }}'
         run: echo "${{ steps.step1.outputs.changelog }}"
       - uses: fjogeleit/http-request-action@master
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "${{ steps.step1.outputs.changelog }}"}'
+          data: '{"content": "${{ env.MY_STEP_VAR }}"}'
