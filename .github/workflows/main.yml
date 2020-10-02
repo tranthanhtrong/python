@@ -26,12 +26,12 @@ jobs:
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}" 
           echo "::set-output name=changelog::$output"
+          MY_STEP_VAR: '${{ steps.step1.outputs.changelog }}'
         id: step1
       - name: Print changelog
         run: echo "${{ steps.step1.outputs.changelog }}"
       - uses: fjogeleit/http-request-action@master
         with:
-          MY_STEP_VAR: '${{ steps.step1.outputs.changelog }}'
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "$MY_STEP_VAR"}'
+          data: '{"content": "${{ steps.step1.MY_STEP_VAR }}"}'
