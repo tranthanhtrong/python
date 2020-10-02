@@ -17,4 +17,4 @@ correction_kfold_selftest(team_file.train, team_file.resultColName, 1, 0.1, 0.1,
 kfold_svm(team_file.train, team_file.resultColName, team_file.listFileTest, 1, 0.1, 0.1, 5)
 kfold_svm_sefltest(team_file.train, team_file.resultColName, team_file.listFileTest, 5, 0.1, 0.1, 5) 
 correction_svm(team_file.train, team_file.resultColName, team_file.listFileTest, 1, 0.1, 0.1)
-correction_svm_selftest(team_file.train, team_file.resultColName, team_file.listFileTest, 1, 0.1, 0.1)
+correction_svm_selftest(team_file.train, team_file.resultColName, 1, 0.1, 0.1)
