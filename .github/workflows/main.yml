@@ -38,83 +38,83 @@ jobs:
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step1
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "A1_${{ steps.step1.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a2.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step2
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "A2_${{ steps.step2.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a3.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step3
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "A3_${{ steps.step3.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a4.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step4
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "A4_${{ steps.step4.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a5.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step5
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "A5_${{ steps.step5.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a6.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step6
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "A6_${{ steps.step6.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a7.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step7
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DISCORD_KEY_REPORT }}
+          method: 'POST'
+          data: '{"content": "A7_${{ steps.step7.outputs.changelog }}"}'
       - run: |
           output=$(python auto_report_a8.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step8
-      - uses: fjogeleit/http-request-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: 'POST'
-          data: '{"content": "A1_${{ steps.step1.outputs.changelog }}"}'
-      - uses: fjogeleit/http-request-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: 'POST'
-          data: '{"content": "A2_${{ steps.step2.outputs.changelog }}"}'
-      - uses: fjogeleit/http-request-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: 'POST'
-          data: '{"content": "A3_${{ steps.step3.outputs.changelog }}"}'
-      - uses: fjogeleit/http-request-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: 'POST'
-          data: '{"content": "A4_${{ steps.step4.outputs.changelog }}"}'
-      - uses: fjogeleit/http-request-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: 'POST'
-          data: '{"content": "A5_${{ steps.step5.outputs.changelog }}"}'
-      - uses: fjogeleit/http-request-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: 'POST'
-          data: '{"content": "A6_${{ steps.step6.outputs.changelog }}"}'
-      - uses: fjogeleit/http-request-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: 'POST'
-          data: '{"content": "A7_${{ steps.step7.outputs.changelog }}"}'
       - uses: fjogeleit/http-request-action@master
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
