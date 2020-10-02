@@ -33,4 +33,4 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: POST
-          payload: '{"name": "Hello"}'
+          payload: '{"content": "Hello"}'
