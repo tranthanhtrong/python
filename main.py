@@ -5,6 +5,7 @@ from a6_kfold_svm_selftest import kfold_svm_sefltest
 from a3_corr_kfold import correction_kfold
 from a2_corr_selftest import correction_matrix_selftest
 from a_utils import *
+from a8_corr_svm_selftest import correction_svm_selftest
 
 while True:
     print("========= Stimulates Start =========")
@@ -72,14 +73,14 @@ while True:
         nTimes = int(input("Time Run (1-100): "))
         percentTest = float(input("Percent Test(0-0.9): "))
         coef = float(input("Coef(0-0.9): "))
-        correction_matrix(team_file.train, team_file.resultColName,
+        correction_svm(team_file.train, team_file.resultColName,
                           team_file.listFileTest, nTimes, percentTest, coef)
     if algo_choice == 8:
         print(textcolor_display("8. Correclation SVM - Self Test", color.OKBLUE))
         nTimes = int(input("Time Run (1-100): "))
         percentTest = float(input("Percent Test(0-0.9): "))
         coef = float(input("Coef(0-0.9): "))
-        correction_matrix(team_file.train, team_file.resultColName,
+        correction_svm_selftest(team_file.train, team_file.resultColName,
                           team_file.listFileTest, nTimes, percentTest, coef)
     print(textcolor_display("Run stimulations again? ", color.WARNING))
     again_no = str(input(textcolor_display("Enter no for stop, otherwise : ", color.OKBLUE)))
