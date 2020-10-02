@@ -26,7 +26,7 @@ jobs:
           outputResult="${output//$'\n'/'%0A'}"
           outputResult="${output//$'\r'/'%0D'}" 
           echo "::set-output name=changelog::$outputResult"
-          values =changelog
+          values ="${changelog}"
         id: step1
       - name: Print changelog
         run: echo "${{ steps.step1.outputs.changelog }}"
