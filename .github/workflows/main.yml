@@ -29,11 +29,6 @@ jobs:
         id: step1
       - name: Print changelog
         run: echo "${{ steps.step1.outputs.changelog }}"
-      - uses: satak/webrequest-action@master
-        with:
-          url: ${{ secrets.DISCORD_KEY_REPORT }}
-          method: POST
-          payload: '{"content": "${{ steps.step1.outputs.changelog }}"}'
       - uses: fjogeleit/http-request-action@master
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
