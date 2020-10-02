@@ -4,6 +4,7 @@ from a7_corr_svm import correction_svm
 from a5_kfold_svm import kfold_svm
 from a6_kfold_svm_selftest import kfold_svm_sefltest
 from a3_corr_kfold import correction_kfold
+from a4_corr_kfold import correction_kfold_selftest
 from a2_corr_selftest import correction_matrix_selftest
 from a8_corr_svm_selftest import correction_svm_selftest
 from a_utils import *
