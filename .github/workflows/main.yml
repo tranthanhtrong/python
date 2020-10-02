@@ -33,8 +33,6 @@ jobs:
           
       - run: |
           output=$(python auto_report.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step1
       - name: Print changelog
