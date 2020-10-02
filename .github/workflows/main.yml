@@ -30,6 +30,7 @@ jobs:
           pip install pandas
           pip install sklearn
           pip install numpy
+          pip install matplotlib
           
       - run: |
           output=$(python auto_report.py v2.21)
