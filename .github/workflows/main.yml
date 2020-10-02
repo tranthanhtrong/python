@@ -32,6 +32,7 @@ jobs:
           pip install numpy
           pip install matplotlib
           pip install seaborn
+          pip install statsmodels 
       - uses: fjogeleit/http-request-action@master
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
