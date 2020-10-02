@@ -28,11 +28,10 @@ jobs:
           echo "::set-output name=changelog::$output"
         id: step1
       - name: Print changelog
-        env:
-          MY_STEP_VAR: '${{ steps.step1.outputs.changelog }}'
         run: echo "${{ steps.step1.outputs.changelog }}"
       - uses: fjogeleit/http-request-action@master
         with:
+          MY_STEP_VAR: '${{ steps.step1.outputs.changelog }}'
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: 'POST'
-          data: '{"content": "${{ env.MY_STEP_VAR }}"}'
+          data: '{"content": "${{ MY_STEP_VAR }}"}'
