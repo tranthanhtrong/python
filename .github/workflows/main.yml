@@ -33,4 +33,4 @@ jobs:
         with:
           url: ${{ secrets.DISCORD_KEY_REPORT }}
           method: POST
-          payload: '{"content": "Hello"}'
+          payload: '{"content": "${{ steps.step1.outputs.changelog }}"}'
