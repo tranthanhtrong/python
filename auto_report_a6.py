@@ -3,9 +3,9 @@ from a_utils import *
 
 team_file = getOldDataset()
 print("A6./ KFold tự kiểm, SVM to Predict")
-kfold_svm_sefltest(team_file.train, team_file.resultColName, 1, 0.2, 5,
-                   IF_Method.UnivariateSelection, 20)
-kfold_svm_sefltest(team_file.train, team_file.resultColName, 1, 0.2, 5,
+kfold_svm_sefltest(team_file.train, team_file.resultColName, 1, 0.3, 5,
+                   IF_Method.UnivariateSelection, 25)
+kfold_svm_sefltest(team_file.train, team_file.resultColName, 1, 0.3, 5,
                    IF_Method.PearsonCorrelationMatrix, 20)
-kfold_svm_sefltest(team_file.train, team_file.resultColName, 1, 0.2, 5,
-                   IF_Method.FeatureImportance, 20)
+kfold_svm_sefltest(team_file.train, team_file.resultColName, 1, 0.3, 5,
+                   IF_Method.FeatureImportance, 25)
