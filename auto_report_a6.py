@@ -1,7 +1,7 @@
 from a6_kfold_svm_selftest import kfold_svm_sefltest
 from a_utils import *
 
-team_file = getNewDataset()
+team_file = getOldDataset()
 print("A6./ KFold tự kiểm, SVM to Predict")
 kfold_svm_sefltest(team_file.train, team_file.resultColName, 1, 0.2, 5,
                    IF_Method.UnivariateSelection, 20)
