@@ -4,6 +4,8 @@ from a_utils import *
 
 team_file = getOldDataset()
 print("A5./ KFold, kiểm chéo, SVM to Predict")
-kfold_svm(team_file.train, team_file.resultColName, 1, 0.1, 5, IF_Method.UnivariateSelection, 10)
-kfold_svm(team_file.train, team_file.resultColName, 1, 0.1, 5, IF_Method.PearsonCorrelationMatrix, 10)
-kfold_svm(team_file.train, team_file.resultColName, 1, 0.1, 5, IF_Method.FeatureImportance, 10)
+kfold_svm(team_file.train, team_file.resultColName, team_file.listFileTest, 1, 0.1, 5, IF_Method.UnivariateSelection,
+          10)
+kfold_svm(team_file.train, team_file.resultColName, team_file.listFileTest, 1, 0.1, 5,
+          IF_Method.PearsonCorrelationMatrix, 10)
+kfold_svm(team_file.train, team_file.resultColName, team_file.listFileTest, 1, 0.1, 5, IF_Method.FeatureImportance, 10)

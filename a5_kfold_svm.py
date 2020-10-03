@@ -26,9 +26,7 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import KFold, cross_validate
 
-# Revise is needed
-# Train on one dataset, then test of another dataset
-def kfold_svm(filenameTrain, resultColName, nTimes, coef_percent, numK, flag, nlargestFeatures):
+def kfold_svm(filenameTrain, resultColName, fileListTest, nTimes, coef_percent, numK, flag, nlargestFeatures):
     ways_to_if = "NONE"
     if (flag == IF_Method.PearsonCorrelationMatrix):
         ways_to_if = "Pearson Correlation Matrix"
@@ -82,75 +80,94 @@ def kfold_svm(filenameTrain, resultColName, nTimes, coef_percent, numK, flag, nl
         importanceFeature = importanceFeature.nlargest(nlargestFeatures)
         importanceFeature = importanceFeature.index
     rng = default_rng()
+    # In colName has n columns, position of RS is n - 1. Because of a noname rows of V1,V2,V3,...
     numbers = rng.choice(len(colName) - 2, size=len(importanceFeature), replace=False)
     randomeFeatureSameSize = colName.delete(0).take(numbers)
     X_Train_Random = df[randomeFeatureSameSize]
     y_Train_Random = y
     X_Train_ImportFeature = df[importanceFeature]
     y_Train_ImportFeature = y
-    print("KFold tự kiểm tra chéo. Chạy lặp " + str(nTimes) + " lần.")
     acc_random = 0.0
     mcc_random = 0.0
     auc_random = 0.0
     acc_if = 0.0
     mcc_if = 0.0
     auc_if = 0.0
-    for n in range(nTimes):
-        if nTimes == 0:
-            break
-        kf = KFold(n_splits=int(numK))
-        X_new_kfold = X_Train_ImportFeature
-        y_new_kfold = y_Train_ImportFeature
-        accuracy_model_acc = []
-        accuracy_model_mcc = []
-        accuracy_model_auc = []
-        select = SelectKBest(mutual_info_classif, k=int(numK))
-        scl = StandardScaler()
-        svm = SVC(kernel='linear', probability=True, random_state=42)
-        pipeline = Pipeline([('select', select), ('scale', scl), ('svm', svm)])
-        for train, test in kf.split(X_new_kfold):
-            X_train_kfold_loops, X_test_kfold_loops = X_new_kfold.iloc[train], X_new_kfold.iloc[test]
-            y_train_kfold_loops, y_test_kfold_loops = y_new_kfold[train], y_new_kfold[test]
-            # Train the model
-            model = pipeline.fit(X_train_kfold_loops, y_train_kfold_loops)
-            accuracy_model_acc.append(metrics.accuracy_score(y_test_kfold_loops, model.predict(X_test_kfold_loops)))
-            accuracy_model_mcc.append(
-                metrics.matthews_corrcoef(y_test_kfold_loops, model.predict(X_test_kfold_loops)))
-            accuracy_model_auc.append(metrics.roc_auc_score(y_test_kfold_loops, model.predict(X_test_kfold_loops)))
-        accuracy_model_acc_random = []
-        accuracy_model_mcc_random = []
-        accuracy_model_auc_random = []
-        X_new_kfold = X_Train_Random
-        y_new_kfold = y_Train_Random
-        select = SelectKBest(mutual_info_classif, k=int(numK))
-        scl = StandardScaler()
-        svm = SVC(kernel='linear', probability=True, random_state=42)
-        pipeline = Pipeline([('select', select), ('scale', scl), ('svm', svm)])
-        for train, test in kf.split(X_new_kfold):
-            X_train_kfold_loops, X_test_kfold_loops = X_new_kfold.iloc[train], X_new_kfold.iloc[test]
-            y_train_kfold_loops, y_test_kfold_loops = y_new_kfold[train], y_new_kfold[test]
-            # Train the model
-            model = pipeline.fit(X_train_kfold_loops, y_train_kfold_loops)
-            accuracy_model_acc_random.append(
-                metrics.accuracy_score(y_test_kfold_loops, model.predict(X_test_kfold_loops)))
-            accuracy_model_mcc_random.append(
-                metrics.matthews_corrcoef(y_test_kfold_loops, model.predict(X_test_kfold_loops)))
-            accuracy_model_auc_random.append(
-                metrics.roc_auc_score(y_test_kfold_loops, model.predict(X_test_kfold_loops)))
+    print("Bắt đầu kết quả ----------------- ")
+    for x in range(len(fileListTest)):
+        print("Chạy test trên " + fileListTest[x] + ". Chạy lặp " + str(nTimes) + " lần.")
+        for n in range(nTimes):
+            if nTimes == 0:
+                break
+            data_yu = pd.read_csv(fileListTest[x])
+            df_IF = pd.DataFrame(data_yu, columns=importanceFeature).fillna(0)
+            X_Test_IF = df_IF[importanceFeature]
+            y_Test_IF = data_yu[resultColName]  # Labels
+            # Remove feature and Test with method 2 - random
+            df_Test = pd.DataFrame(data_yu, columns=randomeFeatureSameSize).fillna(0)
+            X_Test_Random = df_Test[randomeFeatureSameSize]
+            y_Test_Random = data_yu[resultColName]  # Labels
 
-        acc_if += float(sum(map(float, accuracy_model_acc)) / len(accuracy_model_acc))
-        mcc_if += float(sum(map(float, accuracy_model_mcc)) / len(accuracy_model_mcc))
-        auc_if += float(sum(map(float, accuracy_model_auc)) / len(accuracy_model_auc))
-        acc_random += float(sum(map(float, accuracy_model_acc_random)) / len(accuracy_model_acc_random))
-        mcc_random += float(sum(map(float, accuracy_model_mcc_random)) / len(accuracy_model_mcc_random))
-        auc_random += float(sum(map(float, accuracy_model_auc_random)) / len(accuracy_model_auc_random))
-    print("Khi Random ")
-    print("ACC = " + str(acc_random / nTimes))
-    print("MCC = " + str(mcc_random / nTimes))
-    print("AUC = " + str(auc_random / nTimes))
-    print("+++++ ")
-    print("Khi xét Importance Features")
-    print("ACC = " + str(acc_if / nTimes))
-    print("MCC = " + str(mcc_if / nTimes))
-    print("AUC = " + str(auc_if / nTimes))
-    print("--------------------------------- ")
+            # Train with method 1: random forest and kFold
+            clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
+            kf = KFold(n_splits=int(numK))
+            X_new_kfold = X_Train_ImportFeature
+            y_new_kfold = y_Train_ImportFeature
+            accuracy_model_acc = []
+            accuracy_model_mcc = []
+            accuracy_model_auc = []
+            svm = SVC()
+            for train, test in kf.split(X_new_kfold):
+                X_train_kfold_loops, X_test_kfold_loops = X_new_kfold.iloc[train], X_new_kfold.iloc[test]
+                y_train_kfold_loops, y_test_kfold_loops = y_new_kfold[train], y_new_kfold[test]
+
+                # Train the model
+                model = svm.fit(X_train_kfold_loops, y_train_kfold_loops)
+                accuracy_model_acc.append(metrics.accuracy_score(y_Test_IF, model.predict(X_Test_IF).round()))
+                accuracy_model_mcc.append(
+                    metrics.matthews_corrcoef(y_Test_IF, model.predict(X_Test_IF).round()))
+                accuracy_model_auc.append(metrics.roc_auc_score(y_Test_IF, model.predict(X_Test_IF).round()))
+            X_new_kfold = X_Train_Random
+            y_new_kfold = y_Train_Random
+            accuracy_model_acc_random = []
+            accuracy_model_mcc_random = []
+            accuracy_model_auc_random = []
+            svm = SVC()
+            for train, test in kf.split(X_new_kfold):
+                X_train_kfold_loops, X_test_kfold_loops = X_new_kfold.iloc[train], X_new_kfold.iloc[test]
+                y_train_kfold_loops, y_test_kfold_loops = y_new_kfold[train], y_new_kfold[test]
+
+                # Train the model
+                model = svm.fit(X_train_kfold_loops, y_train_kfold_loops)
+                accuracy_model_acc_random.append(
+                    metrics.accuracy_score(y_Test_Random, model.predict(X_Test_Random).round()))
+                accuracy_model_mcc_random.append(
+                    metrics.matthews_corrcoef(y_Test_Random, model.predict(X_Test_Random).round()))
+                accuracy_model_auc_random.append(
+                    metrics.roc_auc_score(y_Test_Random, model.predict(X_Test_Random).round()))
+
+            acc_if += float(sum(map(float, accuracy_model_acc)) / len(accuracy_model_acc))
+            mcc_if += float(sum(map(float, accuracy_model_mcc)) / len(accuracy_model_mcc))
+            auc_if += float(sum(map(float, accuracy_model_auc)) / len(accuracy_model_auc))
+            acc_random += float(sum(map(float, accuracy_model_acc_random)) / len(accuracy_model_acc_random))
+            mcc_random += float(sum(map(float, accuracy_model_mcc_random)) / len(accuracy_model_mcc_random))
+            auc_random += float(sum(map(float, accuracy_model_auc_random)) / len(accuracy_model_auc_random))
+            if nTimes == 0:
+                break
+        print("Khi Random ")
+        print("ACC = " + str(acc_random / nTimes))
+        print("MCC = " + str(mcc_random / nTimes))
+        print("AUC = " + str(auc_random / nTimes))
+        print("+++++ ")
+        print("Khi xét Importance Features")
+        print("ACC = " + str(acc_if / nTimes))
+        print("MCC = " + str(mcc_if / nTimes))
+        print("AUC = " + str(auc_if / nTimes))
+        print("--------------------------------- ")
+        acc_if = 0.0
+        mcc_if = 0.0
+        auc_if = 0.0
+        acc_random = 0.0
+        mcc_random = 0.0
+        auc_random = 0.0
+

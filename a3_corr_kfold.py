@@ -124,13 +124,12 @@ def correction_kfold(filenameTrain, resultColName, fileListTest, nTimes, coef_pe
                     metrics.matthews_corrcoef(y_Test_IF, model.predict(X_Test_IF).round()))
                 accuracy_model_auc.append(metrics.roc_auc_score(y_Test_IF, model.predict(X_Test_IF).round()))
             # evaluate the model
-            clfRandom = RandomForestClassifier(n_estimators=1000, max_features='auto')
-            clfRandom.fit(X_Train_Random, y_Train_Random)
-            y_Pred_Random = clfRandom.predict(X_Test_Random)
+            X_new_kfold = X_Train_Random
+            y_new_kfold = y_Train_Random
             accuracy_model_acc_random = []
             accuracy_model_mcc_random = []
             accuracy_model_auc_random = []
-
+            clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
             for train, test in kf.split(X_new_kfold):
                 X_train_kfold_loops, X_test_kfold_loops = X_new_kfold.iloc[train], X_new_kfold.iloc[test]
                 y_train_kfold_loops, y_test_kfold_loops = y_new_kfold[train], y_new_kfold[test]
