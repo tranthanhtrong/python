@@ -72,7 +72,7 @@ def correction_matrix_selftest(filenameTrain, resultColName, nTimes, coef_percen
         importanceFeature = importanceFeature.index
     rng = default_rng()
     # In colName has n columns, position of RS is n - 1. Because of a noname rows of V1,V2,V3,...
-    numbers = rng.choice(len(colName) - 2, size=len(importanceFeature) - 1, replace=False)
+    numbers = rng.choice(len(colName) - 2, size=len(importanceFeature), replace=False)
     randomeFeatureSameSize = colName.delete(0).take(numbers)
     X_Train_Random = df[randomeFeatureSameSize]
     y_Train_Random = y
