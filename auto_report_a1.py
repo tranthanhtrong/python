@@ -4,4 +4,8 @@ from a_utils import *
 
 team_file = getOldDataset()
 correction_matrix(team_file.train, team_file.resultColName,
-                  team_file.listFileTest, 1, 0.1, IF_Method.UnivariateSelection)
+                  team_file.listFileTest, 1, 0.1, IF_Method.UnivariateSelection,10)
+correction_matrix(team_file.train, team_file.resultColName,
+                  team_file.listFileTest, 1, 0.1, IF_Method.PearsonCorrelationMatrix,10)
+correction_matrix(team_file.train, team_file.resultColName,
+                  team_file.listFileTest, 1, 0.1, IF_Method.FeatureImportance,10)
