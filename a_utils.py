@@ -14,15 +14,18 @@ def getOldDataset():
     fileListTest.append('vogtmann_x.csv')
     return TeamFile(train, fileListTest, "RS")
 
+
 def get_hist(ax):
-    n,bins = [],[]
+    n, bins = [], []
     for rect in ax.patches:
         ((x0, y0), (x1, y1)) = rect.get_bbox().get_points()
-        n.append(y1-y0)
-        bins.append(x0) # left edge of each bin
-    bins.append(x1) # also get right edge of last bin
+        n.append(y1 - y0)
+        bins.append(x0)  # left edge of each bin
+    bins.append(x1)  # also get right edge of last bin
 
-    return n,bins
+    return n, bins
+
+
 def getNewDataset():
     train = "ibdfullHS_UCr_x.csv"
     fileListTest = []
@@ -31,6 +34,21 @@ def getNewDataset():
     # fileListTest.append('ibdfullHS_iCDr_x.csv')
     fileListTest.append('ibdfullHS_UCf_x.csv')
     return TeamFile(train, fileListTest, "RS")
+
+
+class color:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+def textcolor_display(text, values):
+    return f"{values}" + text + f"{color.ENDC}"
 
 
 class IF_Method:

@@ -1,4 +1,3 @@
-import sys
 from a1_corr_matrix import correction_matrix
 from a_utils import *
 

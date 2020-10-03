@@ -1,4 +1,3 @@
-import sys
 from a6_kfold_svm_selftest import kfold_svm_sefltest
 from a_utils import *
 

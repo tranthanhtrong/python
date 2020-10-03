@@ -1,4 +1,3 @@
-import sys
 from a8_corr_svm_selftest import correction_svm_selftest
 from a_utils import *
 team_file = getOldDataset()

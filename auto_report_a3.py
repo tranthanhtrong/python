@@ -1,4 +1,3 @@
-import sys
 from a3_corr_kfold import correction_kfold
 from a_utils import *
 

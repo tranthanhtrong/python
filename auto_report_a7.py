@@ -1,5 +1,3 @@
-import sys
-from a7_corr_svm import correction_svm
 from a_utils import *
 team_file = getOldDataset()
 print("A7./ 70:30 Chéo, SVM to Predict")

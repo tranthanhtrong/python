@@ -1,4 +1,3 @@
-import sys
 from a5_kfold_svm import kfold_svm
 from a_utils import *
 

@@ -1,4 +1,3 @@
-import sys
 from a2_corr_selftest import correction_matrix_selftest
 from a_utils import *
 

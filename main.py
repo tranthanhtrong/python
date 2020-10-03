@@ -7,19 +7,9 @@ from a3_corr_kfold import correction_kfold
 from a2_corr_selftest import correction_matrix_selftest
 from a_utils import *
 from a8_corr_svm_selftest import correction_svm_selftest
-
+from pathlib import Path
 while True:
     print("========= Stimulates Start =========")
-    # Choose datasets
-    print("Dataset you want to run on: ")
-    print("1. Old datasets")
-    print("2. New datasets")
-    data_set_choice = int(input("Input : "))
-    if data_set_choice == 1:
-        team_file = getOldDataset()
-    else:
-        team_file = getNewDataset()
-    # Choose Algorithms
     print(textcolor_display("Algorithms you want to use: ", color.WARNING))
     print("1. Correclation Matrix")
     print("2. Correclation Matrix - Self Test")
@@ -29,60 +19,24 @@ while True:
     print("6. KFold SVM - Self Test")
     print("7. Correclation SVM")
     print("8. Correclation SVM - Self Test")
-    algo_choice = int(input("Input : "))
+    algo_choice = input("Input : ")
+    algo_choice = int(algo_choice)
     if algo_choice == 1:
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        correction_matrix(team_file.train, team_file.resultColName,
-                          team_file.listFileTest, nTimes, percentTest, coef)
+        exec(open("auto_report_a1.py").read())
     if algo_choice == 2:
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        correction_matrix_selftest(team_file.train, team_file.resultColName,
-                                   nTimes, percentTest, coef)
+        exec(Path("auto_report_a2.py").read_text())
     if algo_choice == 3:
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        numK = int(input("Number K-Fold (5 or 10): "))
-        correction_kfold(team_file.train, team_file.resultColName,
-                         team_file.listFileTest, nTimes, percentTest, coef, numK)
+        exec(Path("auto_report_a3.py").read_text())
     if algo_choice == 4:
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        numK = int(input("Number K-Fold (5 or 10): "))
-        correction_kfold_selftest(team_file.train, team_file.resultColName,  nTimes, percentTest, coef, numK)
+        exec(Path("auto_report_a4.py").read_text())
     if algo_choice == 5:
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        numK = int(input("Number K-Fold (5 or 10): "))
-        kfold_svm(team_file.train, team_file.resultColName,
-                  team_file.listFileTest, nTimes, percentTest, coef, numK)
+        exec(Path("auto_report_a5.py").read_text())
     if algo_choice == 6:
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        numK = int(input("Number K-Fold (5 or 10): "))
-        kfold_svm_sefltest(team_file.train, team_file.resultColName,
-                  team_file.listFileTest, nTimes, percentTest, coef, numK)
+        exec(Path("auto_report_a6.py").read_text())
     if algo_choice == 7:
-        print(textcolor_display("7. Correclation SVM", color.OKBLUE))
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        correction_svm(team_file.train, team_file.resultColName,
-                          team_file.listFileTest, nTimes, percentTest, coef)
+        exec(Path("auto_report_a7.py").read_text())
     if algo_choice == 8:
-        print(textcolor_display("8. Correclation SVM - Self Test", color.OKBLUE))
-        nTimes = int(input("Time Run (1-100): "))
-        percentTest = float(input("Percent Test(0-0.9): "))
-        coef = float(input("Coef(0-0.9): "))
-        correction_svm_selftest(team_file.train, team_file.resultColName,
-                          team_file.listFileTest, nTimes, percentTest, coef)
+        exec(Path("auto_report_a1.py").read_text())
     print(textcolor_display("Run stimulations again? ", color.WARNING))
     again_no = str(input(textcolor_display("Enter no for stop, otherwise : ", color.OKBLUE)))
     if 'no' in again_no:
