@@ -100,7 +100,7 @@ def kfold_svm_sefltest(filenameTrain, resultColName, nTimes, coef_percent, numK,
     for n in range(nTimes):
         if nTimes == 0:
             break
-        kf = KFold(n_splits=int(numK))
+        kf = KFold(n_splits=int(numK),random_state=42, shuffle=True)
         X_new_kfold = X_Train_ImportFeature
         y_new_kfold = y_Train_ImportFeature
         accuracy_model_acc = []

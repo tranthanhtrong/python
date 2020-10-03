@@ -110,7 +110,7 @@ def kfold_svm(filenameTrain, resultColName, fileListTest, nTimes, coef_percent, 
 
             # Train with method 1: random forest and kFold
             clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
-            kf = KFold(n_splits=int(numK))
+            kf = KFold(n_splits=int(numK),random_state=42, shuffle=True)
             X_new_kfold = X_Train_ImportFeature
             y_new_kfold = y_Train_ImportFeature
             accuracy_model_acc = []
