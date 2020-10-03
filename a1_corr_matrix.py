@@ -87,7 +87,7 @@ def correction_matrix(filenameTrain, resultColName, fileListTest, nTimes, coef_p
     auc_if = 0.0
     print("Bắt đầu kết quả ----------------- ")
     for x in range(len(fileListTest)):
-        print("Chạy test trên " + fileListTest[x] + " " + str(nTimes) + " lần.")
+        print("Chạy test trên " + fileListTest[x] + ". Chạy lặp " + str(nTimes) + " lần.")
         for n in range(nTimes):
             if nTimes == 0:
                 break

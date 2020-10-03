@@ -84,7 +84,7 @@ def correction_matrix_selftest(filenameTrain, resultColName, nTimes, coef_percen
     X_train_Random_Div, X_test_Random_Div, y_Train_Random_Div, y_test_Random_Div = train_test_split(X_Train_Random,
                                                                                                     y_Train_Random,
                                                                                                     test_size=0.3)
-    print("Tự kiểm tra trên 0.3 phần trăm bệnh nhân còn lại " + str(nTimes) + " lần.")
+    print("Tự kiểm tra trên 0.3 phần trăm bệnh nhân còn lại. Chạy lặp " + str(nTimes) + " lần.")
     acc_if = 0.0
     mcc_if = 0.0
     auc_if = 0.0
