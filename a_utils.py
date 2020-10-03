@@ -37,7 +37,3 @@ class IF_Method:
     PearsonCorrelationMatrix = 1
     UnivariateSelection = 2
     FeatureImportance = 3
-
-
-def textcolor_display(text, values):
-    return text
