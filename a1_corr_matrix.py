@@ -20,7 +20,6 @@ def correction_matrix(filenameTrain, resultColName, fileListTest, nTimes, coef_p
         ways_to_if = "Univariate Selection"
     if (flag == IF_Method.FeatureImportance):
         ways_to_if = "Feature Importance"
-    print("A1./ RandomForestClassifier to Predict")
     print("Cách để chọn features : " + ways_to_if)
     print(str("Train bằng file ") + str(filenameTrain))
     data = pd.read_csv(filenameTrain)
