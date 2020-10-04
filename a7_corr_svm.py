@@ -24,66 +24,12 @@ import statsmodels.api as sm
 from sklearn.feature_selection import chi2
 # Train on one dataset, then test of another dataset
 def correction_svm(filenameTrain, resultColName, fileListTest, nTimes, coef_percent, flag, nlargestFeatures):
-    ways_to_if = "NONE"
-    if (flag == IF_Method.PearsonCorrelationMatrix):
-        ways_to_if = "Pearson Correlation Matrix"
-    if (flag == IF_Method.UnivariateSelection):
-        ways_to_if = "Univariate Selection"
-    if (flag == IF_Method.FeatureImportance):
-        ways_to_if = "Feature Importance"
-    print("Cách để chọn features : " + ways_to_if)
-    print(str("Train bằng file ") + str(filenameTrain))
-    data = pd.read_csv(filenameTrain)
-    colName = data.columns
-    df = pd.DataFrame(data, columns=colName)
-    df.head()
-    X = df[colName]
-    y = df[resultColName]
-    if (flag == IF_Method.PearsonCorrelationMatrix):
-        print("Hệ số tương quan > " + str(coef_percent))
-        if float(coef_percent) != 0.0:
-            cor = X.corr()
-            cor_target = abs(cor[resultColName])
-            relevant_features = cor_target[cor_target > float(coef_percent)]
-        else:
-            relevant_features = X_train_new
-        importanceFeature = relevant_features.index
-    if (flag == IF_Method.UnivariateSelection):
-        print("Số lượng Importance Feature:  " + str(nlargestFeatures))
-        X_No_V = X.drop(data.columns[0], 1)  # independent columns
-        # y = data.iloc[:, -1]  # target column i.e price range
-        # .nlargest(10, 'Score')
-        # apply SelectKBest class to extract top 10 best features
-        bestfeatures = SelectKBest(score_func=chi2, k=10)
-        fit = bestfeatures.fit(X_No_V, y)
-        dfscores = pd.DataFrame(fit.scores_)
-        dfcolumns = pd.DataFrame(X.columns)
-        # concat two dataframes for better visualization
-        relevant_features = pd.concat([dfcolumns, dfscores], axis=1)
-        relevant_features.columns = ['Specs', 'Score']
-        importanceFeature = relevant_features.nlargest(nlargestFeatures, 'Score')
-        importanceFeature = importanceFeature.drop('Score', 1)
-        importanceFeature = importanceFeature.iloc[:, -1]
-    if (flag == IF_Method.FeatureImportance):
-        print("Số lượng Importance Feature:  " + str(nlargestFeatures))
-        X_No_V = X.drop(data.columns[0], 1)  # independent columns
-        from sklearn.ensemble import ExtraTreesClassifier
-        import matplotlib.pyplot as plt
-        model = ExtraTreesClassifier()
-        model.fit(X_No_V, y)
-        # plot graph of feature importances for better visualization
-        importanceFeature = pd.Series(model.feature_importances_, index=X_No_V.columns)
-        importanceFeature = importanceFeature.nlargest(nlargestFeatures)
-        importanceFeature = importanceFeature.index
-    rng = default_rng()
-
-    # In colName has n columns, position of RS is n - 1. Because of a noname rows of V1,V2,V3,...
-    numbers = rng.choice(len(colName) - 2, size=len(importanceFeature), replace=False)
-    randomeFeatureSameSize = colName.delete(0).take(numbers)
-    X_Train_Random = df[randomeFeatureSameSize]
-    y_Train_Random = y
-    X_Train_ImportFeature = df[importanceFeature]
-    y_Train_ImportFeature = y
+    importanceFeature, X_Train_ImportFeature, y_Train_ImportFeature = findImportancesFeatures(resultColName,
+                                                                                              filenameTrain,
+                                                                                              coef_percent, flag,
+                                                                                              nlargestFeatures)
+    randomeFeatureSameSize, X_Train_Random, y_Train_Random = findRandomeFeaturesSets(resultColName, filenameTrain,
+                                                                                     len(importanceFeature))
     X_train_IF_Div, X_test_IF_Div, y_train_IF_Div, y_test_IF_Div = train_test_split(X_Train_ImportFeature,
                                                                                     y_Train_ImportFeature,
                                                                                     test_size=0.3)
@@ -131,16 +77,7 @@ def correction_svm(filenameTrain, resultColName, fileListTest, nTimes, coef_perc
             auc_if += metrics.roc_auc_score(y_Test_IF, y_Predict_IF.round())
             if nTimes == 0:
                 break
-        print("Khi Random ")
-        print("ACC = " + str(acc_random / nTimes))
-        print("MCC = " + str(mcc_random / nTimes))
-        print("AUC = " + str(auc_random / nTimes))
-        print("+++++ ")
-        print("Khi xét Importance Features")
-        print("ACC = " + str(acc_if / nTimes))
-        print("MCC = " + str(mcc_if / nTimes))
-        print("AUC = " + str(auc_if / nTimes))
-        print("--------------------------------- ")
+        printResult(acc_random, mcc_random, auc_random, acc_if, mcc_if, auc_if, nTimes)
         acc_if = 0.0
         mcc_if = 0.0
         auc_if = 0.0

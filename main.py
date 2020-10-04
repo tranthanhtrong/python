@@ -19,6 +19,7 @@ while True:
     print("6. KFold SVM - Self Test")
     print("7. Correclation SVM")
     print("8. Correclation SVM - Self Test")
+    print("9. Run all aboves!")
     algo_choice = input("Input : ")
     algo_choice = int(algo_choice)
     if algo_choice == 1:
@@ -36,7 +37,16 @@ while True:
     if algo_choice == 7:
         exec(Path("auto_report_a7.py").read_text())
     if algo_choice == 8:
+        exec(Path("auto_report_a8.py").read_text())
+    if algo_choice == 9:
         exec(Path("auto_report_a1.py").read_text())
+        exec(Path("auto_report_a2.py").read_text())
+        exec(Path("auto_report_a3.py").read_text())
+        exec(Path("auto_report_a4.py").read_text())
+        exec(Path("auto_report_a5.py").read_text())
+        exec(Path("auto_report_a6.py").read_text())
+        exec(Path("auto_report_a7.py").read_text())
+        exec(Path("auto_report_a8.py").read_text())
     print(textcolor_display("Run stimulations again? ", color.WARNING))
     again_no = str(input(textcolor_display("Enter no for stop, otherwise : ", color.OKBLUE)))
     if 'no' in again_no:
