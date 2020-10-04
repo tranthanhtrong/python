@@ -1,4 +1,3 @@
-![CI](https://github.com/tranthanhtrong/python/workflows/CI/badge.svg)
 ![Run Tests](https://github.com/tranthanhtrong/python/workflows/Run%20Tests/badge.svg)
 <br />
 <p align="center">
