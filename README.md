@@ -1,4 +1,5 @@
 ![Run Tests](https://github.com/tranthanhtrong/python/workflows/Run%20Tests/badge.svg)
+![Discord Webhooks](https://github.com/tranthanhtrong/python/workflows/Discord%20Webhooks/badge.svg)
 <br />
 <p align="center">
   <a href="https://github.com/tranthanhtrong/python">
