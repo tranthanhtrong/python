@@ -8,6 +8,7 @@ from a2_corr_selftest import correction_matrix_selftest
 from a_utils import *
 from a8_corr_svm_selftest import correction_svm_selftest
 from pathlib import Path
+
 while True:
     print("========= Stimulates Start =========")
     print(textcolor_display("Algorithms you want to use: ", color.WARNING))
@@ -20,6 +21,7 @@ while True:
     print("7. Correclation SVM")
     print("8. Correclation SVM - Self Test")
     print("9. Run all aboves!")
+    print("10. Run only dataset summary!")
     algo_choice = input("Input : ")
     algo_choice = int(algo_choice)
     if algo_choice == 1:
@@ -47,6 +49,8 @@ while True:
         exec(Path("auto_report_a6.py").read_text())
         exec(Path("auto_report_a7.py").read_text())
         exec(Path("auto_report_a8.py").read_text())
+    if algo_choice == 10:
+        exec(Path("datasets_summary.py").read_text())
     print(textcolor_display("Run stimulations again? ", color.WARNING))
     again_no = str(input(textcolor_display("Enter no for stop, otherwise : ", color.OKBLUE)))
     if 'no' in again_no:

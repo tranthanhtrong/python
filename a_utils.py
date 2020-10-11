@@ -10,6 +10,27 @@ from sklearn import feature_selection
 import statsmodels.api as sm
 from sklearn.feature_selection import chi2
 from mpmath import *
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from cycler import cycler
+import seaborn as sns
+import networkx as nx
+from textwrap import wrap
+
+def printGraph(columns, data):
+    # plt.style.use('ggplot')
+    columns = columns.delete(len(columns) - 1)
+    data = data[columns]
+    corData = data.corr()
+    # links = corData.stack().reset_index()
+    # links.columns = ['var1', 'var2', 'value']
+    # links_filtered = links.loc[(links['value'] > 0.8) & (links['var1'] != links['var2'])]
+    # G = nx.from_pandas_edgelist(links_filtered, 'var1', 'var2')
+    # nx.draw(G, with_labels=True, node_color='orange', node_size=400, edge_color='black', linewidths=1, font_size=15)
+    fig, ax = plt.subplots(figsize=(16, 14))
+    sns.heatmap(corData, annot=False, cmap=plt.cm.Reds,ax=ax)
+    plt.show()
+
 
 class TeamFile:
     # instance attribute
@@ -29,12 +50,13 @@ def getOldDataset():
 
 
 def getNewDataset():
-    train = "ibdfullHS_UCr_x.csv"
+    train = "ibdfullHS_UCr_x.csv" #iCDr & UCf &iCDf &CDr&CDf
     fileListTest = []
-    # fileListTest.append('ibdfullHS_CDr_x.csv')
-    # fileListTest.append('ibdfullHS_iCDf_x.csv')
-    # fileListTest.append('ibdfullHS_iCDr_x.csv')
+    fileListTest.append('ibdfullHS_iCDr_x.csv')
     fileListTest.append('ibdfullHS_UCf_x.csv')
+    fileListTest.append('ibdfullHS_iCDf_x.csv')
+    fileListTest.append('ibdfullHS_CDr_x.csv')
+    fileListTest.append('ibdfullHS_CDf_x.csv')
     return TeamFile(train, fileListTest, "RS")
 
 
@@ -84,6 +106,7 @@ def findImportancesFeatures(resultColName, filenameTrain, coef_percent, flag, nl
         else:
             relevant_features = X_train_new
         importanceFeature = relevant_features.index
+        print("Number feature selected : " + str(len(importanceFeature)))
     if (flag == IF_Method.UnivariateSelection):
         print("Số lượng Importance Feature:  " + str(nlargestFeatures))
         X_No_V = X.drop(data.columns[0], 1)  # independent columns
@@ -113,6 +136,7 @@ def findImportancesFeatures(resultColName, filenameTrain, coef_percent, flag, nl
         importanceFeature = importanceFeature.index
     X_Train_ImportFeature = df[importanceFeature]
     y_Train_ImportFeature = y
+    printGraph(importanceFeature, data)
     return importanceFeature, X_Train_ImportFeature, y_Train_ImportFeature
 
 
@@ -143,5 +167,4 @@ def printResult(acc_random, mcc_random, auc_random, acc_if, mcc_if, auc_if, nTim
     print("AUC = " + str(auc_if / nTimes))
     print("--------------------------------- ")
 def sumThenAveragePercisely(accuracy_model_acc):
-   return fdiv(fsum(accuracy_model_acc), len(accuracy_model_acc), prec=60)
-
+    return fdiv(fsum(accuracy_model_acc), len(accuracy_model_acc), prec=5)
