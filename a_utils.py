@@ -91,7 +91,7 @@ def findImportancesFeatures(resultColName, filenameTrain, coef_percent, flag, nl
     if (flag == IF_Method.FeatureImportance):
         ways_to_if = "Feature Importance"
     if (flag == IF_Method.RandomForest):
-    ways_to_if = "Random Forest"
+        ways_to_if = "Random Forest"
     print("Cách để chọn features : " + ways_to_if)
     print(str("Train bằng file ") + str(filenameTrain))
     data = pd.read_csv(filenameTrain)
