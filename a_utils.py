@@ -90,8 +90,6 @@ def findImportancesFeatures(resultColName, filenameTrain, coef_percent, flag, nl
         ways_to_if = "Univariate Selection"
     if (flag == IF_Method.FeatureImportance):
         ways_to_if = "Feature Importance"
-    if (flag == IF_Method.RandomForest):
-        ways_to_if = "Random Forest"
     print("Cách để chọn features : " + ways_to_if)
     print(str("Train bằng file ") + str(filenameTrain))
     data = pd.read_csv(filenameTrain)
@@ -141,24 +139,6 @@ def findImportancesFeatures(resultColName, filenameTrain, coef_percent, flag, nl
     y_Train_ImportFeature = y
     printGraph(importanceFeature, data)
     return importanceFeature, X_Train_ImportFeature, y_Train_ImportFeature
-    if (flag == IF_Method.RandomForest):
-#         print("Hệ số tương quan > " + str(coef_percent))
-#         if float(coef_percent) != 0.0:
-#             cor = X.corr()
-#             cor_target = abs(cor[resultColName])
-#             relevant_features = cor_target[cor_target > float(coef_percent)]
-#         else:
-#             relevant_features = X_train_new
-#         importanceFeature = relevant_features.index
-#         print("Number feature selected : " + str(len(importanceFeature)))
-        clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
-        clf.fit(X, y)
-        for feature in zip(feat_labels, clf.feature_importances_):
-            print(feature)
-        relevant_features = SelectFromModel(clf, threshold=0.1)
-        features_100 = relevant_features.nlargest(100)
-        print(relevant_features.nlargest(100))
-        relevant_features.nlargest(100).to_csv('10_features.csv')
 
 def findRandomeFeaturesSets(resultColName, filenameTrain, sizeIF):
     data = pd.read_csv(filenameTrain)
