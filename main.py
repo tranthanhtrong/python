@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectFromModel
 from matplotlib import pyplot as plt
+from sklearn import svm
 
 #Lựa data
 print("Lựa data, 1 cho bộ cũ (feng, vogtmann, yu, zeller), 2 cho bộ mới (bộ IBD):")
@@ -38,11 +39,22 @@ nTimes = input("Số lần lặp tăng feature: ")
 nTimes = int(nTimes)
 # nTimes = 100
 
+#Lựa chọn cách predict
+predict_way = input("Lựa cách predict (1 là RF, 2 là SVM): ")
+predict_way = int(predict_way)
+if (predict_way == 1):
+    clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
+elif (predict_way == 2):
+    clf = svm.SVC(kernel='linear')
+
 acc_if = 0.0
 print("Bắt đầu kết quả ----------------- ")
 acc_average = []
+
 for x in range(len(team_file.listFileTest)):
     print("======Chạy test trên " + team_file.listFileTest[x] + "======")
+    acc_average_graph = []
+    feature_amount_graph = []
     for n in range(nTimes):
         if nTimes == 0:
             break
@@ -60,11 +72,20 @@ for x in range(len(team_file.listFileTest)):
 
         acc_if += metrics.accuracy_score(y_Test_IF, y_Predict_IF.round())
         acc_average.append(acc_if)
+        acc_average_graph.append(acc_if)
+        feature_amount_graph.append(n+1)
         print("Chạy lặp " + str(n + 1) + " feature: " + str(acc_if))
         if nTimes == 0:
             break
         acc_if = 0.0
+    plt.plot(feature_amount_graph, acc_average_graph)
+    plt.title("Line graph on " + team_file.train)
+    plt.xlabel("Số feature")
+    plt.ylabel("ACC")
+    plt.show()
 # acc_if = 0.0
 average = sum(acc_average)/len(acc_average)
+print(feature_amount_graph)
 print("Average ACC:")
 print(average)
+
