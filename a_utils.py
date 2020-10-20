@@ -44,8 +44,8 @@ class TeamFile:
 def getOldDataset():
     train = "feng_x.csv"
     fileListTest = []
-    # fileListTest.append('yu_x.csv')
-    # fileListTest.append('zeller_x.csv')
+    fileListTest.append('yu_x.csv')
+    fileListTest.append('zeller_x.csv')
     fileListTest.append('vogtmann_x.csv')
     return TeamFile(train, fileListTest, "RS")
 

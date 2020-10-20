@@ -129,4 +129,3 @@ dmypy.json
 .pyre/
 .idea/fptu.iml
 .idea/misc.xml
-main.py
