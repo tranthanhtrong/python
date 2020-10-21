@@ -1,91 +1,41 @@
-from a_utils import *
+from utils import *
 from pathlib import Path
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import SelectFromModel
-from matplotlib import pyplot as plt
-from sklearn import svm
 
-#Lựa data
-print("Lựa data, 1 cho bộ cũ (feng, vogtmann, yu, zeller), 2 cho bộ mới (bộ IBD):")
-dataset_choice = input("Lựa : ")
-dataset_choice = int(dataset_choice)
-if (dataset_choice == 1):
-    team_file = getOldDataset()
-elif (dataset_choice == 2):
+while True:
+    print("========= Stimulates Start =========")
+    print(textcolor_display("Algorithms you want to use: ", color.WARNING))
+    print("1. Pearson Correlation")
+    print("2. Chi-Squared")
+    print("3. Recursive Feature Elimination")
+    print("4. Lasso: SelectFromModel")
+    print("5. Tree-based: SelectFromModel")
+    print("6. Run only dataset summary!")
+    algo_choice = input("Input : ")
+    algo_choice = int(algo_choice)
     team_file = getNewDataset()
-
-#Đọc data
-data = pd.read_csv(team_file.train)
-colName = data.columns
-df = pd.DataFrame(data, columns=colName)
-df.head()
-X = df[colName]
-y = df[team_file.resultColName]
-columns = X.columns.tolist()
-X_new = X.drop(X.columns[[0, len(columns)-1]], axis=1)
-data_top = X_new.columns.values
-
-#Trích đặc trưng
-clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
-clf.fit(X_new, y)
-
-#Lọc 100 đặc trưng từ cao xuống thấp
-sorted_idx = (-clf.feature_importances_).argsort(-1)[:100]
-features_value = clf.feature_importances_[sorted_idx]
-new_name = data_top[sorted_idx]
-
-nTimes = input("Số lần lặp tăng feature: ")
-nTimes = int(nTimes)
-# nTimes = 100
-
-#Lựa chọn cách predict
-predict_way = input("Lựa cách predict (1 là RF, 2 là SVM): ")
-predict_way = int(predict_way)
-if (predict_way == 1):
-    clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
-elif (predict_way == 2):
-    clf = svm.SVC(kernel='linear')
-
-acc_if = 0.0
-print("Bắt đầu kết quả ----------------- ")
-acc_average = []
-
-for x in range(len(team_file.listFileTest)):
-    print("======Chạy test trên " + team_file.listFileTest[x] + "======")
-    acc_average_graph = []
-    feature_amount_graph = []
-    for n in range(nTimes):
-        if nTimes == 0:
-            break
-        data_yu = pd.read_csv(team_file.listFileTest[1])
-        importanceFeature = new_name[:(n+1)]
-        X_train_IF = df[importanceFeature]
-        y_train_IF = y
-        df_IF = pd.DataFrame(data_yu, columns=importanceFeature).fillna(0)
-        X_Test_IF = df_IF[importanceFeature]
-        y_Test_IF = data_yu[team_file.resultColName]
-
-        clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
-        clf.fit(X_train_IF, y_train_IF)  # Build a forest of trees from the training set (X, y).
-        y_Predict_IF = clf.predict(X_Test_IF)
-
-        acc_if += metrics.accuracy_score(y_Test_IF, y_Predict_IF.round())
-        acc_average.append(acc_if)
-        acc_average_graph.append(acc_if)
-        feature_amount_graph.append(n+1)
-        print("Chạy lặp " + str(n + 1) + " feature: " + str(acc_if))
-        if nTimes == 0:
-            break
-        acc_if = 0.0
-    plt.plot(feature_amount_graph, acc_average_graph)
-    plt.title("Line graph on " + team_file.train)
-    plt.xlabel("Số feature")
-    plt.ylabel("ACC")
-    plt.show()
-# acc_if = 0.0
-average = sum(acc_average)/len(acc_average)
-print(feature_amount_graph)
-print("Average ACC:")
-print(average)
-
+    if algo_choice == 1:
+        print("1. Pearson Correlation")
+        subteam2(team_file.train, team_file.resultColName,
+                          team_file.listFileTest, 1, 0.1, Select_Method.Pearson, 25,10)
+    if algo_choice == 2:
+        print("2. Chi-Squared")
+        subteam2(team_file.train, team_file.resultColName,
+                team_file.listFileTest, 1, 0.1, Select_Method.Chi, 25,10)
+    if algo_choice == 3:
+        subteam2(team_file.train, team_file.resultColName,
+                team_file.listFileTest, 1, 0.1, Select_Method.Recursive, 25, 10)
+    if algo_choice == 4:
+        subteam2(team_file.train, team_file.resultColName,
+                team_file.listFileTest, 1, 0.1, Select_Method.Lasso, 25, 10)
+    if algo_choice == 5:
+        subteam2(team_file.train, team_file.resultColName,
+                team_file.listFileTest, 1, 0.1, Select_Method.Tree, 25, 10)
+    if algo_choice == 6:
+        exec(Path("datasets_summary.py").read_text())
+    print(textcolor_display("Run stimulations again? ", color.WARNING))
+    again_no = str(input(textcolor_display("Enter no for stop, otherwise : ", color.OKBLUE)))
+    if 'no' in again_no:
+        print(textcolor_display("Terminated the stimulations", color.FAIL))
+        break
+    else:
+        print(textcolor_display("========= Welcome back =========", color.OKGREEN))
