@@ -6,7 +6,7 @@ name: Run Tests
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ subteam2_01_november ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,66 +35,10 @@ jobs:
           pip install statsmodels 
           pip install mpmath
       - run: |
-          output=$(python auto_report_a1.py v2.21)
+          output=$(python main.py v2.21)
           output="${output//$'\n'/\\n}"
           output="${output// / }"
           echo "::set-output name=changelog::$output"
         id: step1
       - run: |
           echo '${{ steps.step1.outputs.changelog }}'
-      - run: |
-          output=$(python auto_report_a2.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
-          echo "::set-output name=changelog::$output"
-        id: step2
-      - run: |
-          echo '${{ steps.step2.outputs.changelog }}'
-      - run: |
-          output=$(python auto_report_a3.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
-          echo "::set-output name=changelog::$output"
-        id: step3
-      - run: |
-          echo '${{ steps.step3.outputs.changelog }}'
-      - run: |
-          output=$(python auto_report_a4.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
-          echo "::set-output name=changelog::$output"
-        id: step4
-      - run: |
-          echo '${{ steps.step4.outputs.changelog }}'
-      - run: |
-          output=$(python auto_report_a5.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
-          echo "::set-output name=changelog::$output"
-        id: step5
-      - run: |
-          echo '${{ steps.step5.outputs.changelog }}'
-      - run: |
-          output=$(python auto_report_a6.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
-          echo "::set-output name=changelog::$output"
-        id: step6
-      - run: |
-          echo '${{ steps.step6.outputs.changelog }}'
-      - run: |
-          output=$(python auto_report_a7.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
-          echo "::set-output name=changelog::$output"
-        id: step7
-      - run: |
-          echo '${{ steps.step7.outputs.changelog }}'
-      - run: |
-          output=$(python auto_report_a8.py v2.21)
-          output="${output//$'\n'/\\n}"
-          output="${output// / }"
-          echo "::set-output name=changelog::$output"
-        id: step8
-      - run: |
-          echo '${{ steps.step6.outputs.changelog }}'
