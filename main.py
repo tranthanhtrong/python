@@ -22,12 +22,15 @@ while True:
         subteam2(team_file.train, team_file.resultColName,
                 team_file.listFileTest, 1, 0.1, Select_Method.Chi, 25,10)
     if algo_choice == 3:
+        print("3. Recursive Feature Elimination")
         subteam2(team_file.train, team_file.resultColName,
                 team_file.listFileTest, 1, 0.1, Select_Method.Recursive, 25, 10)
     if algo_choice == 4:
+        print("4. Lasso: SelectFromModel")
         subteam2(team_file.train, team_file.resultColName,
                 team_file.listFileTest, 1, 0.1, Select_Method.Lasso, 25, 10)
     if algo_choice == 5:
+        print("5. Tree-based: SelectFromModel")
         subteam2(team_file.train, team_file.resultColName,
                 team_file.listFileTest, 1, 0.1, Select_Method.Tree, 25, 10)
     if algo_choice == 6:
