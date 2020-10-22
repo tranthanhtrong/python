@@ -104,11 +104,11 @@ data_line = list(df_new.mean())
 plt.plot(name_columns_graph, data_line, color='red', marker='o')
 plt.xticks(rotation=90)
 plt.xlabel('Features', fontsize=14)
-plt.ylabel('Accurracy', fontsize=14)
+plt.ylabel('Accuracy', fontsize=14)
 plt.grid(False)
 # Graph Boxplot
 df_new.plot.box(grid=False, rot=90)
 plt.xlabel('Features', fontsize=14)
-plt.ylabel('Accurracy', fontsize=14)
+plt.ylabel('Accuracy', fontsize=14)
 plt.show()
 
