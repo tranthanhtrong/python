@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectFromModel
 from matplotlib import pyplot as plt
+import numpy as np
 from sklearn import svm
 
 #Lựa data
@@ -50,7 +51,8 @@ elif (predict_way == 2):
 acc_if = 0.0
 print("Bắt đầu kết quả ----------------- ")
 acc_average = []
-
+acc_average = []
+mul_list_acc = collections.defaultdict(list)
 for x in range(len(team_file.listFileTest)):
     print("======Chạy test trên " + team_file.listFileTest[x] + "======")
     acc_average_graph = []
@@ -71,21 +73,42 @@ for x in range(len(team_file.listFileTest)):
         y_Predict_IF = clf.predict(X_Test_IF)
 
         acc_if += metrics.accuracy_score(y_Test_IF, y_Predict_IF.round())
+        mul_list_acc[(x + 1)].append(acc_if)
+        print(acc_if)
         acc_average.append(acc_if)
-        acc_average_graph.append(acc_if)
-        feature_amount_graph.append(n+1)
         print("Chạy lặp " + str(n + 1) + " feature: " + str(acc_if))
         if nTimes == 0:
             break
         acc_if = 0.0
-    plt.plot(feature_amount_graph, acc_average_graph)
-    plt.title("Line graph on " + team_file.train)
-    plt.xlabel("Số feature")
-    plt.ylabel("ACC")
-    plt.show()
+    acc_if = 0.0
+    average = sum(acc_average) / len(acc_average)
+    print("========== Average ACC of " + team_file.listFileTest[x] + "==========")
+    print(average)
+    acc_average = []
 # acc_if = 0.0
-average = sum(acc_average)/len(acc_average)
-print(feature_amount_graph)
-print("Average ACC:")
-print(average)
+name_columns_graph = []
+list_acc_file = []
+# Create name for x-axis
+for x in range(nTimes):
+    name_columns_graph.append(str(x+1))
+# Append acc of each file into one list
+for x in range(len(team_file.listFileTest)):
+    acc_file = np.array(mul_list_acc[(x+1)])
+    list_acc_file.append(acc_file)
+# convert list to numpy array
+data_new = np.array(list_acc_file)
+# Graph line
+df_new = pd.DataFrame(data = data_new, columns = name_columns_graph)
+# Calculating average
+data_line = list(df_new.mean())
+plt.plot(name_columns_graph, data_line, color='red', marker='o')
+plt.xticks(rotation=90)
+plt.xlabel('Features', fontsize=14)
+plt.ylabel('Accurracy', fontsize=14)
+plt.grid(False)
+# Graph Boxplot
+df_new.plot.box(grid=False, rot=90)
+plt.xlabel('Features', fontsize=14)
+plt.ylabel('Accurracy', fontsize=14)
+plt.show()
 
