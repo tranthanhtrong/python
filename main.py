@@ -5,7 +5,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectFromModel
 from matplotlib import pyplot as plt
 import numpy as np
-from sklearn import svm
+from sklearn.svm import SVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 #Lựa data
 print("Lựa data, 1 cho bộ cũ (feng, vogtmann, yu, zeller), 2 cho bộ mới (bộ IBD):")
@@ -44,9 +46,9 @@ nTimes = int(nTimes)
 predict_way = input("Lựa cách predict (1 là RF, 2 là SVM): ")
 predict_way = int(predict_way)
 if (predict_way == 1):
-    clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
+    clf_pre = RandomForestClassifier(n_estimators=1000, max_features='auto')
 elif (predict_way == 2):
-    clf = svm.SVC(kernel='linear')
+    clf_pre = make_pipeline(StandardScaler(), SVC(gamma='auto'))
 
 acc_if = 0.0
 print("Bắt đầu kết quả ----------------- ")
@@ -68,9 +70,9 @@ for x in range(len(team_file.listFileTest)):
         X_Test_IF = df_IF[importanceFeature]
         y_Test_IF = data_yu[team_file.resultColName]
 
-        clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
-        clf.fit(X_train_IF, y_train_IF)  # Build a forest of trees from the training set (X, y).
-        y_Predict_IF = clf.predict(X_Test_IF)
+        # clf = RandomForestClassifier(n_estimators=1000, max_features='auto')
+        clf_pre.fit(X_train_IF, y_train_IF)  # Build a forest of trees from the training set (X, y).
+        y_Predict_IF = clf_pre.predict(X_Test_IF)
 
         acc_if += metrics.accuracy_score(y_Test_IF, y_Predict_IF.round())
         mul_list_acc[(x + 1)].append(acc_if)
